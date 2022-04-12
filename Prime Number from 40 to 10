@@ -1,0 +1,23 @@
+mov cx, 40  ;cx=40  asal kontrolu yapilacak sayi
+esitleme:  ;bolen sayiyi bolunene esitlenmesi icin bir label
+mov bx, cx  ;bx=cx=40    bolen sayi
+bolme:     ;bolme isleminin gerceklestigi kisim
+dec bx      ;bx=40-1=39 bolen sayinin eksiltilmesi
+mov ax, cx  ;ax=cx=40 ;div isleminin gerceklestirilmesi icin cx’in ax’e atanmasi
+mov dx, 0 ;bir onceki islemden kalanin sifirlanması
+div bx      ;ax/bx=40/39->dx=?0 al=01 dl=01
+cmp dl, 0     ;bolme islemi sonucunda kalan sifir mi kontrolu
+JNZ bolme   ;dl(kalan)=0(asal degil) => jump bolme
+cmp bx, 1   ;sayi en son 1'e bolunduyse
+JZ Lpush    ;stack'e eklenmesi icin push'a git
+dec cx      ;bx 1 degilse donguyu tekrarlamak icin sayiyi 1 azalt
+JMP esitleme ;dongunun tekrarlanmasi icin basa don
+
+Lpush:  ;push isleminin gerceklestirilmesi icin bir label 
+push cx  ;asal sayinin stack’e eklenmesi
+dec cx  ;asal sayinin donguye devam etmesi icin bir azaltilmasi
+cmp cx, 10  ;sayinin 10 olup olmadiginin kontrolu
+JNZ esitleme ;sayi 10 degil ise dongunun basina don
+JZ bitir ;sayi 10 ise(ZF=0) programi bitir 
+        
+bitir:
